@@ -4,13 +4,12 @@
 
 int main(int argc, char** argv) {
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER)) {
-        fprintf(stderr,
-                "\nUnable to initialize SDL:  %s\n",
-                SDL_GetError()
-               );
+        printf("\nUnable to initialize SDL:  %s\n", SDL_GetError());
         return 1;
     }
+	printf("SDL initialized.\n");
 	SDL_Quit();
+	printf("Quiting....\n");
 
     return 0;
 }
