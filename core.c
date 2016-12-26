@@ -10,9 +10,9 @@ int main(int argc, char** argv) {
                );
         return 1;
     }
-    atexit(SDL_Quit);
+    // atexit(SDL_Quit);
+	SDL_Quit();
 
-    /* ... */
 
     return 0;
 }

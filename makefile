@@ -1,3 +1,4 @@
+TARGET=sdlTest
 CC=gcc
 LIBDIR=-I.
 COMMONFLAGS=-Wall -std=c99
@@ -12,9 +13,14 @@ BUILDPATH=build/
 OBJS=$(BUILDPATH)core
 
 EXE=setup.app
-all:
-	$(CC) $(CFLAGS) -o $(OBJS) *.c
-	./$(OBJS)
+
+all:$(TARGET)
+	@echo "$< Build Over----------->"
+	./$<
+$(TARGET):
+	$(CC) $(CFLAGS) -o $@ *.c
+
 .PHONY: clean
 clean:
-	rm $(BUILDPATH)*
+	rm -f $(TARGET)
+	rm -f $(BUILDPATH)*
