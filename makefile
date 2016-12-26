@@ -1,9 +1,10 @@
 TARGET=sdlTest
-CC=gcc
+CC=gcc-5
 LIBDIR=-I.
 COMMONFLAGS=-Wall -std=c99
 COMMONFLAGS+=-F/Library/Frameworks
 COMMONFLAGS+=-framework SDL2
+COMMONFLAGS+=-framework SDL2_image
 
 LIDLIBS+=-lm
 
@@ -12,13 +13,12 @@ CFLAGS=$(COMMONFLAGS) $(LIBDIR)
 BUILDPATH=build/
 OBJS=$(BUILDPATH)core
 
-EXE=setup.app
 
 all:$(TARGET)
 	@echo "$< Build Over----------->"
 	./$<
-$(TARGET):
-	$(CC) $(CFLAGS) -o $@ *.c
+$(TARGET):*.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 .PHONY: clean
 clean:
