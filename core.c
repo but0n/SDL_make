@@ -6,23 +6,18 @@
 #define WINDOW_WIDTH (512)
 #define WINDOW_HEIGHT (512)
 
-
-
 int main() {
-	SDL_Window *window;
-
     if (SDL_Init(SDL_INIT_VIDEO)) {
         printf("\nUnable to initialize SDL:  %s\n", SDL_GetError());
         return 1;
     }
-
-	window = SDL_CreateWindow(
+	SDL_Window *window = SDL_CreateWindow(
 		"Hello",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT,
-		0
+		SDL_WINDOW_OPENGL
 	);
 
 	//	handle screen
