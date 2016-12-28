@@ -3,8 +3,8 @@
 #include <stdio.h> /* for fprintf() */
 #include <stdlib.h> /* for atexit() */
 
-#define WINDOW_WIDTH (640)
-#define WINDOW_HEIGHT (480)
+#define WINDOW_WIDTH (512)
+#define WINDOW_HEIGHT (512)
 
 
 
@@ -46,7 +46,7 @@ int main() {
 	}
 
 	//	create Surface
-	// SDL_Surface *surface = IMG_Load("resources/mos.jpg");
+	// SDL_Surface *surface = IMG_Load("resources/logo.png");
 	SDL_Surface *surface = IMG_Load("../Resources/hello.png");
 	if(!surface) {
 		printf("Erro creating surface!\n");
@@ -73,7 +73,7 @@ int main() {
 
 	dest.x = (WINDOW_WIDTH - dest.w) / 2;
 	dest.y = -WINDOW_HEIGHT;
-	int vector = 1000;
+	int vector = 3000;
 	int a = 0;
 	while(dest.y <= WINDOW_HEIGHT) {
 		//	clear the window
@@ -82,7 +82,7 @@ int main() {
 		SDL_RenderCopy(rend, tex, NULL, &dest);
 		SDL_RenderPresent(rend);
 		vector+=a;
-		a+=10;
+		// a+=10;
 		// y_pos -= 5;
 		SDL_Delay(1000/60);
 	}
