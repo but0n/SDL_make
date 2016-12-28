@@ -19,10 +19,13 @@ CUTLINE=------------------------------------------------------------->
 TTY_NONE=\033[m
 TTY_RED=\033[1;31m
 TTY_GREEN=\033[1;32m
+TTY_PURPLE=\033[1;35m
 
 all:install
-	@echo "$< Build Over $(CUTLINE)"
+	@echo "$< Build Over $(CUTLINE) $(TTY_PURPLE)"
 	@echo "Running...."
+	open $(APPPATH)
+	@echo "$(TTY_NONE)"
 
 $(TARGET):*.c
 	@echo "Compiling $< $(CUTLINE) $(TTY_RED)"
@@ -39,6 +42,7 @@ $(APPPATH)/Contents/MacOS/SDL2.framework:
 	cp -R /Library/Frameworks/SDL2.framework $(APPPATH)/Contents/MacOS/
 	cp -R /Library/Frameworks/SDL2_image.framework $(APPPATH)/Contents/MacOS/
 	cp Info.plist $(APPPATH)/Contents/
+	cp -R Resources $(APPPATH)/Contents/
 	@echo "$(TTY_NONE)"
 
 
