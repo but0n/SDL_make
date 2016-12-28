@@ -6,7 +6,6 @@
 #define WINDOW_WIDTH (640)
 #define WINDOW_HEIGHT (480)
 
-int vector = 5;
 
 
 int main() {
@@ -74,15 +73,16 @@ int main() {
 
 	dest.x = (WINDOW_WIDTH - dest.w) / 2;
 	dest.y = -WINDOW_HEIGHT;
-	int *vp = &vector;
+	int vector = 1000;
+	int a = 0;
 	while(dest.y <= WINDOW_HEIGHT) {
 		//	clear the window
 		SDL_RenderClear(rend);
-		dest.y += *vp;
-		// (*vp) = *(vp) + 1;
+		dest.y += vector/1000;
 		SDL_RenderCopy(rend, tex, NULL, &dest);
 		SDL_RenderPresent(rend);
-
+		vector+=a;
+		a+=10;
 		// y_pos -= 5;
 		SDL_Delay(1000/60);
 	}

@@ -1,5 +1,5 @@
 TARGET=SDL_Test
-CC=gcc-5
+CC=gcc
 LIBDIR=-I.
 COMMONFLAGS=-Wall -std=c99
 COMMONFLAGS+=-F/Library/Frameworks
@@ -47,7 +47,7 @@ $(APPPATH)/Contents/MacOS/SDL2.framework:
 
 
 
-.PHONY: clean install
+.PHONY: clean
 clean:
 	rm -f $(TARGET)
 	rm -rf $(BUILDPATH)/*
