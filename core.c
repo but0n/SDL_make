@@ -3,6 +3,12 @@
 #include <stdio.h> /* for fprintf() */
 #include <stdlib.h> /* for atexit() */
 
+#define WINDOW_WIDTH (640)
+#define WINDOW_HEIGHT (480)
+
+int vector = 1;
+
+
 int main() {
 	SDL_Window *window;
 
@@ -15,8 +21,8 @@ int main() {
 		"Hello",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
 		0
 	);
 
@@ -31,7 +37,7 @@ int main() {
 
 	//	create Render
 	SDL_Renderer *rend = SDL_CreateRenderer(window, -1,
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+		SDL_RENDERER_ACCELERATED
 	);
 	if (!rend) {
 		printf("error creating renderer: %s\n", SDL_GetError());
@@ -41,7 +47,8 @@ int main() {
 	}
 
 	//	create Surface
-	SDL_Surface *surface = IMG_Load("resources/hello.png");
+	// SDL_Surface *surface = IMG_Load("resources/mos.jpg");
+	SDL_Surface *surface = IMG_Load("../Resources/hello.png");
 	if(!surface) {
 		printf("Erro creating surface!\n");
 		SDL_DestroyRenderer(rend);
@@ -61,24 +68,28 @@ int main() {
 		return 1;
 	}
 
-	//	clear the window
-	SDL_RenderClear(rend);
+	//	struct to hold the position and size of the sprite
+	SDL_Rect dest;
+	SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h);
 
-	SDL_RenderCopy(rend, tex, NULL, NULL);
-	SDL_RenderPresent(rend);
+	dest.x = (WINDOW_WIDTH - dest.w) / 2;
+	dest.y = -WINDOW_HEIGHT;
+	int *vp = &vector;
+	while(dest.y <= WINDOW_HEIGHT) {
+		//	clear the window
+		SDL_RenderClear(rend);
+		dest.y += *vp;
+		// (*vp) = *(vp) + 1;
+		SDL_RenderCopy(rend, tex, NULL, &dest);
+		SDL_RenderPresent(rend);
 
-	SDL_Delay(5000);
-
+		// y_pos -= 5;
+		SDL_Delay(1000/60);
+	}
 	SDL_DestroyTexture(tex);
 	SDL_DestroyRenderer(rend);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
-
-	// screen = SDL_SetVideoMode(640, 480, 8);
-	// if (screen == NULL) {
-	// 	printf("\nCoundn't set 640x480x8 video mode:\t%s", SDL_GetError());
-	// 	return 1;
-	// }
 
     return 0;
 }
