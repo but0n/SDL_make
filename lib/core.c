@@ -17,8 +17,9 @@ int main() {
 		SDL_WINDOWPOS_CENTERED,
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT,
-		SDL_WINDOW_OPENGL
+		SDL_WINDOW_FULLSCREEN_DESKTOP | SDL_WINDOW_ALLOW_HIGHDPI
 	);
+    SDL_GL_CreateContext(window);
 
 	//	handle screen
 	//	Initialize the display in a 640x480 8-bit palettized mode
@@ -79,8 +80,11 @@ int main() {
 		vector+=a;
 		// a+=10;
 		// y_pos -= 5;
-		SDL_Delay(1000/60);
-	}
+        for(int i = 0; i < 16; i++){
+                SDL_PumpEvents();
+                SDL_Delay(1);
+            }
+    	}
 	SDL_DestroyTexture(tex);
 	SDL_DestroyRenderer(rend);
 	SDL_DestroyWindow(window);
