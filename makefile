@@ -6,10 +6,10 @@ CONTNPATH=$(APP)/Contents
 all:lib install
 	open $(APP)
 
-install:main FW
+install:main $(CONTNPATH)/MacOS/SDL2.framework
 	cp $< $(CONTNPATH)/MacOS/
 
-FW:
+$(CONTNPATH)/MacOS/SDL2.framework:
 	@echo "Loading Frameworks"
 	mkdir -p $(CONTNPATH)/{MacOS,Resources}
 	cp -R /Library/Frameworks/SDL2.framework $(CONTNPATH)/MacOS/
