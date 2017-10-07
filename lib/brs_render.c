@@ -36,6 +36,7 @@ static unsigned char brs_CloseWindow(void *conf) {
     SDL_DestroyRenderer(arg->camera);
     SDL_DestroyWindow(arg->window);
     SDL_Quit();
+    return 0;
 }
 
 // Custom delay function
