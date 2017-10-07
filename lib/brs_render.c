@@ -47,8 +47,8 @@ void brs_Delay(unsigned int ms) {
     }
 }
 
-int brs_CreatObj(const char *path, brs_obj_t *ctx) {
-    SDL_Surface *surface = IMG_Load(path);
+int brs_CreatSprite(brs_sprite_t *ctx) {
+    SDL_Surface *surface = IMG_Load(ctx->image_path);
     if(!surface) {
         return 1;
     }
@@ -62,11 +62,12 @@ int brs_CreatObj(const char *path, brs_obj_t *ctx) {
     SDL_QueryTexture(ctx->texture, NULL, NULL, &(ctx->transform.w), &(ctx->transform.h));
     ctx->transform.x = ctx->position.x - ctx->pivot_offset.x;
     ctx->transform.y = ctx->position.y - ctx->pivot_offset.y;
-    SDL_RenderClear(brs_render_conf_st.camera);
     SDL_RenderCopy(brs_render_conf_st.camera, ctx->texture, NULL, &(ctx->transform));
 
     return 0;
 }
+
+
 
 
 

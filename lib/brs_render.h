@@ -19,19 +19,19 @@ struct brs_pos_s {
     int y;
 };
 
-struct brs_obj_s {
-    SDL_Rect            transform;
-    struct brs_pos_s    position;
-    struct brs_pos_s    pivot_offset;
-    SDL_Surface        *surface;
+typedef struct {
+    SDL_Rect            transform;      // Render Position
+    struct brs_pos_s    position;       // Rigidbody Position
+    struct brs_pos_s    pivot_offset;   // Pivot Offset
     SDL_Texture        *texture;
+    char               *image_path;
     void               *cont;
-};
+}brs_sprite_t;
 
 
 extern brs_module_t brs_module_render_st;
 
 extern void brs_Delay(unsigned int ms);
-extern int brs_CreatObj(const char *path, brs_obj_t *ctx);
+extern int brs_CreatSprite(brs_sprite_t *ctx);
 
 #endif

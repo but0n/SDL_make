@@ -1,5 +1,6 @@
 #include <brs_core.h>
 
+// Register
 brs_module_t       *brs_module_pool[] = {
     &brs_module_render_st,
     NULL
