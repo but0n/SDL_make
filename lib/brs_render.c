@@ -64,7 +64,6 @@ int brs_CreatSprite(brs_sprite_t *ctx) {
         SDL_QueryTexture(ctx->texture, NULL, NULL, &(ctx->transform.w), &(ctx->transform.h));
         ctx->transform.x = ctx->position.x - ctx->pivot_offset.x;
         ctx->transform.y = ctx->position.y - ctx->pivot_offset.y;
-        SDL_RenderCopy(brs_render_conf_st.camera, ctx->texture, NULL, &(ctx->transform));
     }
 
     return 0;
@@ -81,9 +80,20 @@ void brs_AddScene(brs_scene_t *ctx) {
     }
 }
 
-int brs_AddSprite(brs_sprite_t *ctx) {
+int brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
     brs_CreatSprite(ctx);
+    // Add current sprite to sprites pool
+    brs_scene_t    *scene = brs_scene_pool.scene[index];
+    scene->sprites_pool[++(scene->top)] = ctx;
     return 0;
+}
+
+int brs_RenderScene(unsigned char index) {
+    brs_scene_t    *scene = brs_scene_pool.scene[index];
+
+    for(unsigned int i = 0; i <= scene->top; i++) {
+        SDL_RenderCopy(((brs_render_conf_tp)brs_module_render_st.conf)->camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
+    }
 }
 
 

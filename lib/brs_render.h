@@ -50,5 +50,7 @@ extern brs_module_t     brs_module_render_st;
 extern void brs_Delay(unsigned int ms);
 extern int brs_CreatSprite(brs_sprite_t *ctx);
 extern void brs_AddScene(brs_scene_t *ctx);
+extern int brs_AddSprite(brs_sprite_t *ctx, unsigned char index);
+extern int brs_RenderScene(unsigned char index);
 
 #endif

@@ -37,8 +37,9 @@ int main() {
     tmp2.pivot_offset.x = 256;
     tmp2.pivot_offset.y = 256;
 
-    brs_CreatSprite(&tmp);
-    brs_CreatSprite(&tmp2);
+    brs_AddSprite(&tmp, 0);
+    brs_AddSprite(&tmp2, 0);
+    brs_RenderScene(0);
     SDL_RenderPresent(((brs_render_conf_t *)brs_module_pool[0]->conf)->camera);
 
     brs_Delay(2000);
