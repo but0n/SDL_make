@@ -43,6 +43,8 @@ int main() {
 
     brs_Delay(2000);
     SDL_DestroyTexture(tmp.texture);
+    SDL_DestroyTexture(tmp2.texture);
+
 
     brs_KillModules();
     return 0;
