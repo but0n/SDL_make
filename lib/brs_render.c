@@ -1,9 +1,11 @@
 #include <brs_core.h>
 
 static brs_render_conf_t        brs_render_conf_st;
+static brs_scene_pool_t         brs_scene_pool_st;
 
 static unsigned char            brs_CreateWindow(void *conf);
 static unsigned char            brs_CloseWindow(void *conf);
+static void                     brs_Init_scene_pool(SDL_Renderer *cam);
 
 
 brs_module_t brs_module_render_st = {
@@ -29,6 +31,7 @@ static unsigned char brs_CreateWindow(void *conf) {
             SDL_GetError()
         );
     }
+    brs_Init_scene_pool(arg->camera);
     return 0;
 }
 
@@ -55,7 +58,7 @@ int brs_CreatSprite(brs_sprite_t *ctx) {
             return 1;
         }
 
-        ctx->texture = SDL_CreateTextureFromSurface(brs_render_conf_st.camera, surface);
+        ctx->texture = SDL_CreateTextureFromSurface(brs_scene_pool_st.camera, surface);
         SDL_FreeSurface(surface);
         if(!ctx->texture) {
             return 1;
@@ -69,30 +72,36 @@ int brs_CreatSprite(brs_sprite_t *ctx) {
     return 0;
 }
 
-static brs_scene_pool_t     brs_scene_pool = {
-    {},
-    -1
-};
+static brs_scene_pool_t     brs_scene_pool_st;
 
-void brs_AddScene(brs_scene_t *ctx) {
-    if(ctx != NULL) {
-        brs_scene_pool.scene[++(brs_scene_pool.top)] = ctx;
+// Initialize struct prototypes
+static void brs_Init_scene_pool(SDL_Renderer *cam) {
+    if(cam == NULL)
+        return;
+    // Set the pointer to Render
+    brs_scene_pool_st.camera = cam;
+    // Set stack pointer of each scene (sprites pool)
+    for(unsigned int i = 0; i < BRS_SCENE_AMOUNT; i++) {
+        brs_scene_pool_st.scene[i].top = -1; // Empty pool
     }
 }
 
-int brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
+void brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
     brs_CreatSprite(ctx);
-    // Add current sprite to sprites pool
-    brs_scene_t    *scene = brs_scene_pool.scene[index];
-    scene->sprites_pool[++(scene->top)] = ctx;
-    return 0;
+    if(ctx != NULL && index < BRS_SCENE_AMOUNT) {
+        // Add current sprite to sprites pool
+        brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
+        scene->sprites_pool[++(scene->top)] = ctx;
+    }
 }
 
-int brs_RenderScene(unsigned char index) {
-    brs_scene_t    *scene = brs_scene_pool.scene[index];
+void brs_RenderScene(unsigned char index) {
+    if(index < BRS_SCENE_AMOUNT) {
+        brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
 
-    for(unsigned int i = 0; i <= scene->top; i++) {
-        SDL_RenderCopy(((brs_render_conf_tp)brs_module_render_st.conf)->camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
+        for(unsigned int i = 0; i <= scene->top; i++) {
+            SDL_RenderCopy(brs_scene_pool_st.camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
+        }        
     }
 }
 

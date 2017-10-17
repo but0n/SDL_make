@@ -39,8 +39,8 @@ typedef struct {
 
 #define BRS_SCENE_AMOUNT    3
 typedef struct {
-    brs_scene_t        *scene[BRS_SCENE_AMOUNT];
-    int                 top;
+    brs_scene_t         scene[BRS_SCENE_AMOUNT];
+    SDL_Renderer       *camera;
 }brs_scene_pool_t;
 
 #define CREAT_SCENE(name)
@@ -49,8 +49,7 @@ extern brs_module_t     brs_module_render_st;
 
 extern void brs_Delay(unsigned int ms);
 extern int brs_CreatSprite(brs_sprite_t *ctx);
-extern void brs_AddScene(brs_scene_t *ctx);
-extern int brs_AddSprite(brs_sprite_t *ctx, unsigned char index);
-extern int brs_RenderScene(unsigned char index);
+extern void brs_AddSprite(brs_sprite_t *ctx, unsigned char index);
+extern void brs_RenderScene(unsigned char index);
 
 #endif
