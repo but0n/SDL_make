@@ -97,14 +97,16 @@ void brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
 
 void brs_RenderScene(unsigned char index) {
     if(index < BRS_SCENE_AMOUNT) {
+        SDL_RenderClear(brs_scene_pool_st.camera);
+
         brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
 
         for(unsigned int i = 0; i <= scene->top; i++) {
             SDL_RenderCopy(brs_scene_pool_st.camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
-        }        
+        }
+        SDL_RenderPresent(brs_scene_pool_st.camera);
     }
 }
-
 
 
 
