@@ -1,4 +1,4 @@
-# SDL_make
+# Brush2D
 
 ## A tiny game engine based on SDL2 written in C
 <!-- ![](Resources/doc.png)
