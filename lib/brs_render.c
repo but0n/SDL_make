@@ -6,7 +6,7 @@ static brs_scene_pool_t         brs_scene_pool_st;
 static unsigned char            brs_CreateWindow(void *conf);
 static unsigned char            brs_CloseWindow(void *conf);
 static void                     brs_Init_scene_pool(SDL_Renderer *cam);
-
+static void                     brs_DestroyTexture();
 
 brs_module_t brs_module_render_st = {
     (void *)&brs_render_conf_st,
@@ -37,11 +37,22 @@ static unsigned char brs_CreateWindow(void *conf) {
 
 static unsigned char brs_CloseWindow(void *conf) {
     brs_render_conf_tp arg = conf;
+    brs_DestroyTexture();
     SDL_DestroyRenderer(arg->camera);
     SDL_DestroyWindow(arg->window);
     SDL_Quit();
     return 0;
 }
+
+static void brs_DestroyTexture() {
+    for(unsigned int i = 0; i < BRS_SCENE_AMOUNT; i++) {
+        brs_scene_t    *ctx = &brs_scene_pool_st.scene[i];
+        for(int e = 0; e <= ctx->top; e++) {
+            SDL_DestroyTexture(ctx->sprites_pool[e]->texture);
+        }
+    }
+}
+
 
 // Custom delay function
 void brs_Delay(unsigned int ms) {
@@ -63,7 +74,7 @@ int brs_CreatSprite(brs_sprite_t *ctx) {
         if(!ctx->texture) {
             return 1;
         }
-
+        // TODO if ctx->clip == NULL then ...
         SDL_QueryTexture(ctx->texture, NULL, NULL, &(ctx->transform.w), &(ctx->transform.h));
         ctx->transform.x = ctx->position.x - ctx->pivot_offset.x;
         ctx->transform.y = ctx->position.y - ctx->pivot_offset.y;
@@ -91,17 +102,20 @@ void brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
     if(ctx != NULL && index < BRS_SCENE_AMOUNT) {
         // Add current sprite to sprites pool
         brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
+        // TODO - check if sprite overflow
         scene->sprites_pool[++(scene->top)] = ctx;
     }
 }
 
 void brs_RenderScene(unsigned char index) {
     if(index < BRS_SCENE_AMOUNT) {
-        SDL_RenderClear(brs_scene_pool_st.camera);
+        SDL_RenderClear(brs_scene_pool_st.camera); // Clean buff
 
         brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
 
         for(unsigned int i = 0; i <= scene->top; i++) {
+            scene->sprites_pool[i]->transform.x -= scene->camera_pos.x;
+            scene->sprites_pool[i]->transform.y -= scene->camera_pos.y;
             SDL_RenderCopy(brs_scene_pool_st.camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
         }
         SDL_RenderPresent(brs_scene_pool_st.camera);

@@ -43,8 +43,6 @@ typedef struct {
     SDL_Renderer       *camera;
 }brs_scene_pool_t;
 
-#define CREAT_SCENE(name)
-
 extern brs_module_t     brs_module_render_st;
 
 extern void brs_Delay(unsigned int ms);
