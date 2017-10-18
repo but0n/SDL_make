@@ -1,6 +1,7 @@
 # SDL_make
 
-![](Resources/doc.png)
+## A tiny game engine based on SDL2 written in C
+<!-- ![](Resources/doc.png)
 
 A simple way to explore SDL without Xcode, only makefile!
 
@@ -12,4 +13,4 @@ Besides, sometimes you needn't use a huge IDE.
 
 ### DEMO
 
-![](Resources/demo.gif)
+![](Resources/demo.gif) -->
