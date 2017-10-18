@@ -19,10 +19,11 @@ int main() {
     tmp2.image_path = "../Resources/hello.png";
     // tmp.position = {0,0};
     // tmp.pivot_offset = {0,0};
-    tmp2.position.x = 0;
-    tmp2.position.y = 0;
+    tmp2.position.x = 800;
+    tmp2.position.y = 800;
     tmp2.pivot_offset.x = 256;
     tmp2.pivot_offset.y = 256;
+    tmp2.z_index = 1;
 
     brs_sprite_t map = {
         .image_path = "../Resources/test_background.png"
@@ -33,9 +34,13 @@ int main() {
     brs_AddSprite(&tmp2, 0);
 
     brs_AddSprite(&tmp, 0);
-    brs_RenderScene(0);
 
-    brs_Delay(2000);
+    int speed = 5; // 3 pixel per frame
+    for(int i = 0; i < 100; i++) {
+        brs_RenderScene(0);
+        brs_CameraPosition(0)->x += speed;
+        brs_Delay(100/6);
+    }
 
     brs_KillModules();
     return 0;

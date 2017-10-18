@@ -76,8 +76,6 @@ int brs_CreatSprite(brs_sprite_t *ctx) {
         }
         // TODO if ctx->clip == NULL then ...
         SDL_QueryTexture(ctx->texture, NULL, NULL, &(ctx->transform.w), &(ctx->transform.h));
-        ctx->transform.x = ctx->position.x - ctx->pivot_offset.x;
-        ctx->transform.y = ctx->position.y - ctx->pivot_offset.y;
     }
 
     return 0;
@@ -114,12 +112,17 @@ void brs_RenderScene(unsigned char index) {
         brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
 
         for(unsigned int i = 0; i <= scene->top; i++) {
-            scene->sprites_pool[i]->transform.x -= scene->camera_pos.x;
-            scene->sprites_pool[i]->transform.y -= scene->camera_pos.y;
-            SDL_RenderCopy(brs_scene_pool_st.camera, scene->sprites_pool[i]->texture, NULL, &(scene->sprites_pool[i]->transform));
+            brs_sprite_t *ctx = scene->sprites_pool[i];
+            ctx->transform.x = ctx->position.x - ctx->pivot_offset.x - (ctx->z_index+1)*scene->camera_pos.x;
+            ctx->transform.y = ctx->position.y - ctx->pivot_offset.y - (ctx->z_index+1)*scene->camera_pos.y;
+            SDL_RenderCopy(brs_scene_pool_st.camera, ctx->texture, NULL, &(ctx->transform));
         }
         SDL_RenderPresent(brs_scene_pool_st.camera);
     }
+}
+
+brs_pos_t *brs_CameraPosition(unsigned char index) {
+    return &brs_scene_pool_st.scene[index].camera_pos;
 }
 
 

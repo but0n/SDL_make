@@ -19,8 +19,8 @@ typedef struct {
 }brs_pos_t;
 
 typedef struct {
-    SDL_Rect            transform;      // Render Position
-    brs_pos_t           position;       // Rigidbody Position
+    SDL_Rect            transform;      // Render Position (based on Screen)
+    brs_pos_t           position;       // Rigidbody Position (based on World)
     brs_pos_t           pivot_offset;   // Pivot Offset
     SDL_Texture        *texture;
     char               *image_path;
@@ -49,5 +49,6 @@ extern void brs_Delay(unsigned int ms);
 extern int brs_CreatSprite(brs_sprite_t *ctx);
 extern void brs_AddSprite(brs_sprite_t *ctx, unsigned char index);
 extern void brs_RenderScene(unsigned char index);
+extern brs_pos_t *brs_CameraPosition(unsigned char index);
 
 #endif
