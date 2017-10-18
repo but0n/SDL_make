@@ -96,12 +96,17 @@ static void brs_Init_scene_pool(SDL_Renderer *cam) {
 }
 
 void brs_AddSprite(brs_sprite_t *ctx, unsigned char index) {
-    brs_CreatSprite(ctx);
     if(ctx != NULL && index < BRS_SCENE_AMOUNT) {
+        if(ctx->image_path != NULL) {
+            // Generate texture
+            brs_CreatSprite(ctx);
+        }
         // Add current sprite to sprites pool
         brs_scene_t    *scene = &brs_scene_pool_st.scene[index];
-        // TODO - check if sprite overflow
-        scene->sprites_pool[++(scene->top)] = ctx;
+        // Check if sprite overflow
+        if(scene->top < BRS_SPRITE_AMOUNT-1) {
+            scene->sprites_pool[++(scene->top)] = ctx;
+        }
     }
 }
 
